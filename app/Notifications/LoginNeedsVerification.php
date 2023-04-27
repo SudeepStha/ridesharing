@@ -40,6 +40,7 @@ class LoginNeedsVerification extends Notification
         ]);
 
         return (new TwilioSmsMessage())->content("Your ridesharing login code is {$loginCode}, don't share it with anyone!!");
+        // return response()->json("Your ridesharing login code is {$loginCode}, don't share it with anyone!!");
     }
 
     /**

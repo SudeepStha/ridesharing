@@ -24,11 +24,25 @@ class LoginController extends Controller
             return response()->json(['message' => 'Could not process a user with that phone number.'], 401);
         }
 
+        //commented because the process of sending notification is not working and giving error as 401 unable to create record in vue and not api in vs code.
+
         //send the user a one time use code
-        $user->notify( new LoginNeedsVerification());
+        // $user->notify( new LoginNeedsVerification());
+
+        //start: this code should be in loginneedsverification but sms is not working so making it work form this controller.
+        $loginCode = rand(111111, 999999);
+
+        $user->update([
+            'login_code' => $loginCode
+        ]);
+
+        // return (new TwilioSmsMessage())->content("Your ridesharing login code is {$loginCode}, don't share it with anyone!!");
+
+        //end:
+
 
         //return back a response
-        return response()->json(['message' => 'Text message notification sent.'], 200);
+        return response()->json(['message' => 'Text message notification sent. The message needs to be this but unfortunately twilio is not working as it`s not paid so please look the login_code in database/users to verify your phone number and please proceed to login/verify api. After verification the login_code will be set to null.'], 200);
 
     }
 
